@@ -19,10 +19,6 @@ stages:
                 image: ballastacr.azurecr.io/terraform:1.0.0
                 endpoint: ballastacr
             steps:
-                - checkout: self
-                  persistCredentials: true
-                  clean: true
-
                 - task: CmdLine@2
                   displayName: 'Terraform init'
                   inputs:
