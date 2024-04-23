@@ -24,36 +24,26 @@ stages:
                   clean: true
 
                 - task: CmdLine@2
-                  displayName: 'Az Authentication'
-                  inputs:
-                      script: |
-                          az login --service-principal --username $(TF_VAR_client_id) --password $(TF_VAR_client_secret) --tenant $(TF_VAR_tenant_id)
-
-                - task: CmdLine@2
                   displayName: 'Terraform init'
                   inputs:
                       script: |
-                          cd 2.0_non_prod
                           terraform init
 
                 - task: CmdLine@2
                   displayName: 'Terraform validate'
                   inputs:
                       script: |
-                          cd 2.0_non_prod
                           terraform validate
 
                 - task: CmdLine@2
                   displayName: 'Terraform plan'
                   inputs:
                       script: |
-                          cd 2.0_non_prod
                           terraform plan -out=tfplan
 
                 - task: CmdLine@2
                   displayName: 'Terraform apply'
                   inputs:
                       script: |
-                          cd 2.0_non_prod
                           terraform apply tfplan
                   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
