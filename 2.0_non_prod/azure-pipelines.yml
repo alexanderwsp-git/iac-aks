@@ -19,6 +19,16 @@ stages:
                 image: ballastacr.azurecr.io/terraform:1.0.0
                 endpoint: ballastacr
             steps:
+                - checkout: self
+                  persistCredentials: true
+                  clean: true
+
+                - task: CmdLine@2
+                  displayName: 'Az Authentication'
+                  inputs:
+                      script: |
+                          az login --service-principal --username $(TF_VAR_client_id) --password $(TF_VAR_client_secret) --tenant $(TF_VAR_tenant_id)
+
                 - task: CmdLine@2
                   displayName: 'Terraform init'
                   inputs:
