@@ -28,6 +28,9 @@ stages:
                   inputs:
                       script: |
                           az login --service-principal --username $(TF_VAR_client_id) --password $(TF_VAR_client_secret) --tenant $(TF_VAR_tenant_id)
+                          export TF_VAR_client_id="$(TF_VAR_client_id)"
+                          export TF_VAR_client_secret="$(TF_VAR_client_secret)"
+                          export TF_VAR_tenant_id="$(TF_VAR_tenant_id)"
 
                 - task: CmdLine@2
                   displayName: 'Terraform init'
@@ -47,6 +50,7 @@ stages:
                   displayName: 'Terraform plan'
                   inputs:
                       script: |
+                          env
                           cd 2.0_non_prod
                           terraform plan -out=tfplan
 
