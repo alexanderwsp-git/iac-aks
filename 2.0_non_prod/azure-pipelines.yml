@@ -18,8 +18,15 @@ stages:
             container:
                 image: ballastacr.azurecr.io/terraform:1.0.0
                 endpoint: ballastacr
-                options: '-v $(Build.SourcesDirectory)/2.0_non_prod:/terraform'
             steps:
+                - checkout: self
+                  persistCredentials: true
+                  clean: true
+
+                - script: |
+                      cp -r $(Build.SourcesDirectory)/2.0_non_prod /terraform
+                  displayName: 'Copy 2.0_non_prod directory to container'
+
                 - task: CmdLine@2
                   displayName: 'Az Authentication'
                   inputs:
