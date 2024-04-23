@@ -20,13 +20,24 @@ stages:
                 endpoint: ballastacr
             steps:
                 - checkout: self
-
                 # Add your custom commands here
                 - task: CmdLine@2
                   displayName: 'Az Authentication'
                   inputs:
                       script: |
                           az login --service-principal --username $(TF_VAR_client_id) --password $(TF_VAR_client_secret) --tenant $(TF_VAR_tenant_id)
+
+                - task: CmdLine@2
+                  displayName: 'Going to the project'
+                  inputs:
+                      script: |
+                          cd 2.0_non_prod
+
+                - task: CmdLine@2
+                  displayName: 'Terraform init'
+                  inputs:
+                      script: |
+                          terraform init
 
 # steps:
 #     - script: |
