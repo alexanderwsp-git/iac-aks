@@ -20,7 +20,6 @@ stages:
                 endpoint: ballastacr
             steps:
                 - checkout: self
-                # Add your custom commands here
                 - task: CmdLine@2
                   displayName: 'Az Authentication'
                   inputs:
@@ -39,21 +38,21 @@ stages:
                       script: |
                           terraform init
 
-# steps:
-#     - script: |
-#           terraform init
-#       displayName: 'Terraform Init'
+                - task: CmdLine@2
+                  displayName: 'Terraform validate'
+                  inputs:
+                      script: |
+                          terraform validate
 
-#     - script: |
-#           terraform validate
-#       displayName: 'Terraform Validate'
+                - task: CmdLine@2
+                  displayName: 'Terraform plan'
+                  inputs:
+                      script: |
+                          terraform plan -out=tfplan
 
-#     - script: |
-#           terraform plan -out=tfplan
-#       displayName: 'Terraform Plan'
-
-#     - script: |
-#           if [[ $(echo $(Build.SourceBranch) | grep -c '^refs/heads/main$') -eq 1 ]]; then
-#             terraform apply tfplan
-#           fi
-#       displayName: 'Terraform Apply'
+                - task: CmdLine@2
+                  displayName: 'Terraform apply'
+                  inputs:
+                      script: |
+                          terraform apply tfplan
+                  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
