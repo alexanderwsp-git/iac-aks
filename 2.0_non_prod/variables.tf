@@ -1,7 +1,7 @@
-variable "subscription_id" {}
+# variable "subscription_id" {}
 variable "client_id" {}
 variable "client_secret" {}
-variable "tenant_id" {}
+# variable "tenant_id" {}
 
 variable "resource_group_name" {
   type    = string
@@ -41,6 +41,11 @@ variable "azurerm_subnet_name" {
 variable "azurerm_subnet_address" {
   type    = list(string)
   default = ["10.0.1.0/24"]
+}
+
+variable "azurerm_container_registry_id" {
+  type    = string
+  default = "/subscriptions/6eb45b59-3ead-4817-9b4b-5201ac067738/resourceGroups/nonprod/providers/Microsoft.ContainerRegistry/registries/ballastacr"
 }
 
 variable "azurerm_container_registry_name" {

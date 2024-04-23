@@ -6,10 +6,11 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = var.azurerm_kubernetes_cluster_dnsprefix
 
   default_node_pool {
-    name            = "default"
-    node_count      = 1
-    vm_size         = var.azurerm_kubernetes_cluster_vm_size
-    os_disk_size_gb = 30
+    name                 = "master"
+    vm_size              = var.azurerm_kubernetes_cluster_vm_size
+    node_count           = 1
+    orchestrator_version = var.azurerm_kubernetes_cluster_version
+    os_disk_size_gb      = 30
   }
 
   network_profile {
@@ -30,23 +31,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
     env       = "nonprod",
     createdBy = "terraform"
   }
-}
-
-resource "azurerm_kubernetes_cluster_node_pool" "master" {
-  name                  = "master"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
-  vm_size               = var.azurerm_kubernetes_cluster_vm_size
-  node_count            = 1
-  orchestrator_version  = var.azurerm_kubernetes_cluster_version
-  os_disk_size_gb       = 30
-  mode                  = "System"
-
-  tags = {
-    env       = "nonprod",
-    createdBy = "terraform"
-  }
-
-  depends_on = [azurerm_kubernetes_cluster.aks]
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "workers" {
@@ -72,7 +56,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "workers" {
 resource "azurerm_role_assignment" "ara" {
   principal_id                     = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
   role_definition_name             = "AcrPull"
-  scope                            = azurerm_container_registry.acr.id
+  scope                            = var.azurerm_container_registry_id
   skip_service_principal_aad_check = true
-  depends_on                       = [azurerm_subnet.subnet, azurerm_container_registry.acr, azurerm_kubernetes_cluster.aks]
+  depends_on                       = [azurerm_subnet.subnet, azurerm_kubernetes_cluster.aks]
 }

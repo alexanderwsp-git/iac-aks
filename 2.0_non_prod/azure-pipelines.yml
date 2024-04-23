@@ -1,0 +1,48 @@
+trigger:
+    branches:
+        include:
+            - main
+            - feature/*
+
+variables:
+    - group: 'aks-nonprod'
+
+stages:
+    - stage: Terraform
+      displayName: 'Terraform Pipeline'
+      jobs:
+          - job: CustomContainer
+            displayName: 'Run commands in custom container'
+            pool:
+                vmImage: 'ubuntu-latest'
+            container:
+                image: ballastacr.azurecr.io/terraform:1.0.0
+                endpoint: ballastacr
+            steps:
+                - checkout: self
+
+                # Add your custom commands here
+                - task: CmdLine@2
+                  displayName: 'Az Authentication'
+                  inputs:
+                      script: |
+                          az login --service-principal --username $(TF_VAR_client_id) --password $(TF_VAR_client_secret) --tenant $(TF_VAR_tenant_id)
+
+# steps:
+#     - script: |
+#           terraform init
+#       displayName: 'Terraform Init'
+
+#     - script: |
+#           terraform validate
+#       displayName: 'Terraform Validate'
+
+#     - script: |
+#           terraform plan -out=tfplan
+#       displayName: 'Terraform Plan'
+
+#     - script: |
+#           if [[ $(echo $(Build.SourceBranch) | grep -c '^refs/heads/main$') -eq 1 ]]; then
+#             terraform apply tfplan
+#           fi
+#       displayName: 'Terraform Apply'
