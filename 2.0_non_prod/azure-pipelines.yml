@@ -11,8 +11,8 @@ stages:
     - stage: Terraform
       displayName: 'Terraform Pipeline'
       jobs:
-          - job: CustomContainer
-            displayName: 'Run commands in custom container'
+          - job: CreateAks
+            displayName: 'Creating aks'
             pool:
                 vmImage: 'ubuntu-latest'
             container:
