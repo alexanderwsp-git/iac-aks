@@ -27,10 +27,7 @@ stages:
                   displayName: 'Az Authentication'
                   inputs:
                       script: |
-                          az login --service-principal --username $(TF_VAR_client_id) --password $(TF_VAR_client_secret) --tenant $(TF_VAR_tenant_id)
-                          export TF_VAR_client_id="$(TF_VAR_client_id)"
-                          export TF_VAR_client_secret="$(TF_VAR_client_secret)"
-                          export TF_VAR_tenant_id="$(TF_VAR_tenant_id)"
+                          az login --service-principal --username $(TF_VAR_CLIENT_ID) --password $(TF_VAR_CLIENT_SECRET) --tenant $(TF_VAR_TENANT_ID)
 
                 - task: CmdLine@2
                   displayName: 'Terraform init'

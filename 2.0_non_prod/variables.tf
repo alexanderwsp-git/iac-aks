@@ -1,6 +1,6 @@
-variable "client_id" {}
-variable "client_secret" {}
-variable "tenant_id" {}
+variable "CLIENT_ID" {}
+variable "CLIENT_SECRET" {}
+variable "TENANT_ID" {}
 
 variable "resource_group_name" {
   type    = string
