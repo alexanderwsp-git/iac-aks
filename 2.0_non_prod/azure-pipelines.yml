@@ -35,19 +35,12 @@ stages:
                       script: |
                           cd 2.0_non_prod
                           terraform init
-
-                - task: CmdLine@2
-                  displayName: 'Terraform validate'
-                  inputs:
-                      script: |
-                          cd 2.0_non_prod
                           terraform validate
 
                 - task: CmdLine@2
                   displayName: 'Terraform plan'
                   inputs:
                       script: |
-                          env
                           cd 2.0_non_prod
                           terraform plan -out=tfplan
 
