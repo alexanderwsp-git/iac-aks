@@ -64,7 +64,7 @@ variable "azurerm_kubernetes_cluster_dnsprefix" {
 
 variable "azurerm_kubernetes_cluster_version" {
   type    = string
-  default = "1.29.2"
+  default = "1.28.5"
 }
 
 variable "azurerm_kubernetes_cluster_vm_size" {

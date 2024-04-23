@@ -27,6 +27,8 @@ stages:
                   displayName: 'Az Authentication'
                   inputs:
                       script: |
+                          pwd
+                          ls -l
                           az login --service-principal --username $(TF_VAR_CLIENT_ID) --password $(TF_VAR_CLIENT_SECRET) --tenant $(TF_VAR_TENANT_ID)
 
                 - task: CmdLine@2
@@ -49,5 +51,6 @@ stages:
                   inputs:
                       script: |
                           cd 2.0_non_prod
+                          ls -l
                           terraform apply tfplan
                   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
