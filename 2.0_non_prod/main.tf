@@ -14,10 +14,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   network_profile {
-    network_plugin     = "azure"
-    service_cidr       = "10.0.2.0/24"
-    dns_service_ip     = "10.0.2.10"
-    load_balancer_sku  = "standard"
+    network_plugin    = "azure"
+    service_cidr      = "10.0.2.0/24"
+    dns_service_ip    = "10.0.2.10"
+    load_balancer_sku = "standard"
   }
 
   service_principal {
@@ -30,6 +30,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     env       = "nonprod",
     createdBy = "terraform"
   }
+  depends_on = [azurerm_subnet.subnet]
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "workers" {
