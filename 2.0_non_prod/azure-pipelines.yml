@@ -33,17 +33,20 @@ stages:
                   displayName: 'Terraform validate'
                   inputs:
                       script: |
+                          cd 2.0_non_prod
                           terraform validate
 
                 - task: CmdLine@2
                   displayName: 'Terraform plan'
                   inputs:
                       script: |
+                          cd 2.0_non_prod
                           terraform plan -out=tfplan
 
                 - task: CmdLine@2
                   displayName: 'Terraform apply'
                   inputs:
                       script: |
+                          cd 2.0_non_prod
                           terraform apply tfplan
                   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
