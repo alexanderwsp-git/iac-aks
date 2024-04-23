@@ -23,6 +23,7 @@ stages:
                   displayName: 'Terraform init'
                   inputs:
                       script: |
+                          cd 2.0_non_prod
                           terraform init
 
                 - task: CmdLine@2
