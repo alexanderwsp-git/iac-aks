@@ -52,6 +52,11 @@ variable "azurerm_container_registry_name" {
   default = "nonprodballastacr"
 }
 
+variable "aks_service_principal_app_id" {
+  type    = string
+  default = "a1fdb38b-90ac-4ca0-bbcd-e3b0c2050ffb"
+}
+
 variable "azurerm_kubernetes_cluster_name" {
   type    = string
   default = "nonprod-ballast-aks"
